@@ -14,7 +14,7 @@ export default function(this:TomSelect) {
         if(self.items.length === 1) {
             const value = self.getValue();
             const option = self.getOption(value[0]);
-            placeholder = option.textContent;
+            placeholder = option?.textContent ? option.textContent : '';
         }
         if(self.items.length > 1) placeholder = collapsedItemsTemplate.replace('#', self.items.length.toString());
         setAttr(self.control_input,{placeholder: placeholder});
