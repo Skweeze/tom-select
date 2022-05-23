@@ -1,5 +1,4 @@
 import TomSelect from "../../tom-select";
-import { applyCSS } from '../../vanilla';
 
 export default function (this: TomSelect) {
 	var self = this;
