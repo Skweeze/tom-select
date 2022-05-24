@@ -6,7 +6,7 @@ import {
 export default function(this:TomSelect) {
 	const self = this;
 
-    self.hook('after','inputState',() => {
+    const updatePlaceholder = () => {
         if (self.settings.mode !== 'multi') return;
 
         const collapsedItemsTemplate = self.settings.collapsedItemsTemplate ? self.settings.collapsedItemsTemplate : '# Selected';
@@ -18,5 +18,13 @@ export default function(this:TomSelect) {
         }
         if(self.items.length > 1) placeholder = collapsedItemsTemplate.replace('#', self.items.length.toString());
         setAttr(self.control_input,{placeholder: placeholder});
+    }
+
+    self.hook('after','inputState',() => {
+        updatePlaceholder();
+    })
+
+    self.hook('after','setup',() => {
+        updatePlaceholder();
     })
 }
