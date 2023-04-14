@@ -1,0 +1,90 @@
+/**
+* Tom Select v2.0.5
+* Licensed under the Apache License, Version 2.0 (the "License");
+*/
+
+(function (global, factory) {
+	typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
+	typeof define === 'function' && define.amd ? define(factory) :
+	(global = typeof globalThis !== 'undefined' ? globalThis : global || self, global.collapse_multiple_items = factory());
+})(this, (function () { 'use strict';
+
+	// https://github.com/andrewrk/node-diacritics/blob/master/index.js
+	const latin_convert = {
+	  'æ': 'ae',
+	  'ⱥ': 'a',
+	  'ø': 'o'
+	};
+	new RegExp(Object.keys(latin_convert).join('|'), 'g');
+
+	// @ts-ignore TS2691 "An import path cannot end with a '.ts' extension"
+	/**
+	 * Iterates over arrays and hashes.
+	 *
+	 * ```
+	 * iterate(this.items, function(item, id) {
+	 *    // invoked for each item
+	 * });
+	 * ```
+	 *
+	 */
+
+	const iterate = (object, callback) => {
+	  if (Array.isArray(object)) {
+	    object.forEach(callback);
+	  } else {
+	    for (var key in object) {
+	      if (object.hasOwnProperty(key)) {
+	        callback(object[key], key);
+	      }
+	    }
+	  }
+	};
+
+	/**
+	 * Set attributes of an element
+	 *
+	 */
+
+	const setAttr = (el, attrs) => {
+	  iterate(attrs, (val, attr) => {
+	    if (val == null) {
+	      el.removeAttribute(attr);
+	    } else {
+	      el.setAttribute(attr, '' + val);
+	    }
+	  });
+	};
+
+	function plugin () {
+	  const self = this;
+
+	  const updatePlaceholder = () => {
+	    if (self.settings.mode !== 'multi') return;
+	    const collapsedItemsTemplate = self.settings.collapsedItemsTemplate ? self.settings.collapsedItemsTemplate : '# Selected';
+	    let placeholder = self.settings.placeholder;
+
+	    if (self.items.length === 1) {
+	      const value = self.getValue();
+	      const option = self.getOption(value[0]);
+	      placeholder = option != null && option.textContent ? option.textContent : '';
+	    }
+
+	    if (self.items.length > 1) placeholder = collapsedItemsTemplate.replace('#', self.items.length.toString());
+	    setAttr(self.control_input, {
+	      placeholder: placeholder
+	    });
+	  };
+
+	  self.hook('after', 'inputState', () => {
+	    updatePlaceholder();
+	  });
+	  self.hook('after', 'setup', () => {
+	    updatePlaceholder();
+	  });
+	}
+
+	return plugin;
+
+}));
+//# sourceMappingURL=collapse_multiple_items.js.map

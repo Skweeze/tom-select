@@ -1,15 +1,12 @@
 import TomSelect from './tom-select';
 
-import caret_position from './plugins/caret_position/plugin';
-import dropdown_input from './plugins/dropdown_input/plugin';
-import no_backspace_delete from './plugins/no_backspace_delete/plugin';
-import remove_button from './plugins/remove_button/plugin';
-import restore_on_backspace from './plugins/restore_on_backspace/plugin';
+import TomSelect_auto_position from './plugins/auto_position/plugin';
+import TomSelect_checkbox_options from './plugins/checkbox_options/plugin';
+import TomSelect_collapse_multiple_items from './plugins/collapse_multiple_items/plugin';
 
-TomSelect.define('caret_position', caret_position);
-TomSelect.define('dropdown_input', dropdown_input);
-TomSelect.define('no_backspace_delete', no_backspace_delete);
-TomSelect.define('remove_button', remove_button);
-TomSelect.define('restore_on_backspace', restore_on_backspace);
+TomSelect.define('auto_position', TomSelect_auto_position);
+TomSelect.define('checkbox_options', TomSelect_checkbox_options);
+TomSelect.define('collapse_multiple_items', TomSelect_collapse_multiple_items);
+
 
 export default TomSelect;
